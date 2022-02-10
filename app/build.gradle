@@ -22,7 +22,7 @@ apply plugin: 'kotlin-android-extensions'
     }
 */
     android {
-        compileSdkVersion = gradle.sdkVersion
+        compileSdkVersion = 28
 
         defaultConfig {
             applicationId = 'rocks.georgik.sdlapp'
@@ -99,6 +99,8 @@ apply plugin: 'kotlin-android-extensions'
                 version "3.10.2"
             }
         }
+        buildToolsVersion '28.0.0'
+        ndkVersion '21.1.6352462'
     }
 /*}*/
 

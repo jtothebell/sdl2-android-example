@@ -12,6 +12,7 @@
 *.so
 
 # Generated files
+*.o
 bin/
 gen/
 out/
@@ -42,6 +43,11 @@ captures/
 .idea/gradle.xml
 .idea/dictionaries
 .idea/libraries
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
 
 # Keystore files
 *.jks
@@ -56,3 +62,14 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+
+/freetype/cmake_install.cmake
+
+/SDL2/cmake_install.cmake
+/SDL2_gfx/cmake_install.cmake
+/SDL2_image/cmake_install.cmake
+/SDL2_jpeg/cmake_install.cmake
+/SDL2_mixer/cmake_install.cmake
+/SDL2_png/cmake_install.cmake
+/SDL2_ttf/cmake_install.cmake
+
