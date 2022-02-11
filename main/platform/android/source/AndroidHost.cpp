@@ -18,7 +18,7 @@ using namespace std;
 #include "../../../source/logger.h"
 
 // sdl
-#ifdef _ANDROID
+#ifdef __ANDROID__
 #include "SDL.h"
 #else
 #include <SDL2/SDL.h>
@@ -28,6 +28,22 @@ using namespace std;
 
 #define RENDERER_FLAGS SDL_RENDERER_ACCELERATED
 #define PIXEL_FORMAT SDL_PIXELFORMAT_ARGB8888
+
+#define KEYCODE_BUTTON_A 0
+#define KEYCODE_BUTTON_B 1
+#define KEYCODE_BUTTON_X 2
+#define KEYCODE_BUTTON_Y 3
+#define KEYCODE_BUTTON_SELECT 4
+#define KEYCODE_BUTTON_UNKNOWN0 5
+#define KEYCODE_BUTTON_START 6
+#define KEYCODE_BUTTON_L1 9
+#define KEYCODE_BUTTON_R1 10
+#define KEYCODE_DPAD_UP 11
+#define KEYCODE_DPAD_DOWN 12
+#define KEYCODE_DPAD_LEFT 13
+#define KEYCODE_DPAD_RIGHT 14
+#define KEYCODE_BUTTON_L2 15
+#define KEYCODE_BUTTON_R2 16
 
 SDL_Event event;
 
@@ -42,21 +58,7 @@ string _desktopSdl2customBiosLua = "cartpath = \"~/p8carts/\"\n"
 
 Host::Host() 
 {
-    struct stat st = {0};
 
-    int res = chdir(getenv("HOME"));
-    if (res == 0 && stat(_desktopSdl2SettingsDir.c_str(), &st) == -1) {
-        res = mkdir(_desktopSdl2SettingsDir.c_str(), 0777);
-    }
-    
-    string cartdatadir = _desktopSdl2SettingsPrefix + "cdata";
-    if (res == 0 && stat(cartdatadir.c_str(), &st) == -1) {
-        res = mkdir(cartdatadir.c_str(), 0777);
-    }
-
-    std::string home = getenv("HOME");
-    
-    std::string fullCartDir = home + "/p8carts";
 
     setPlatformParams(
         128,
@@ -66,7 +68,7 @@ Host::Host()
         PIXEL_FORMAT,
         _desktopSdl2SettingsPrefix,
         _desktopSdl2customBiosLua,
-        fullCartDir
+        "/mnt/sdcard/roms/p8carts"
     );
 }
 
@@ -81,15 +83,16 @@ InputState_t Host::scanInput(){
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {
-                    case SDLK_ESCAPE:currKDown |= P8_KEY_PAUSE; break;
-                    case SDLK_LEFT:  currKDown |= P8_KEY_LEFT; break;
-                    case SDLK_RIGHT: currKDown |= P8_KEY_RIGHT; break;
-                    case SDLK_UP:    currKDown |= P8_KEY_UP; break;
-                    case SDLK_DOWN:  currKDown |= P8_KEY_DOWN; break;
-                    case SDLK_z:     currKDown |= P8_KEY_X; break;
-                    case SDLK_x:     currKDown |= P8_KEY_O; break;
-                    case SDLK_c:     currKDown |= P8_KEY_X; break;
-                    case SDLK_r:     stretchKeyPressed = true; break;
+                    case KEYCODE_BUTTON_START:currKDown |= P8_KEY_PAUSE; break;
+                    case KEYCODE_DPAD_LEFT:  currKDown |= P8_KEY_LEFT; break;
+                    case KEYCODE_DPAD_RIGHT: currKDown |= P8_KEY_RIGHT; break;
+                    case KEYCODE_DPAD_UP:    currKDown |= P8_KEY_UP; break;
+                    case KEYCODE_DPAD_DOWN:  currKDown |= P8_KEY_DOWN; break;
+                    case KEYCODE_BUTTON_A:     currKDown |= P8_KEY_X; break;
+                    case KEYCODE_BUTTON_B:     currKDown |= P8_KEY_O; break;
+                    case KEYCODE_BUTTON_Y:     currKDown |= P8_KEY_X; break;
+                    case KEYCODE_BUTTON_R1:     stretchKeyPressed = true; break;
+                    case KEYCODE_BUTTON_L2:     quit = 1; break;
                 }
                 break;
 

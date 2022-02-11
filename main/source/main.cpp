@@ -154,48 +154,31 @@ void drawScreen() {
 }
 
 
-void setUpPaletteColors(){
-    paletteColors[0] = COLOR_00;
-    paletteColors[1] = COLOR_01;
-    paletteColors[2] = COLOR_02;
-    paletteColors[3] = COLOR_03;
-    paletteColors[4] = COLOR_04;
-    paletteColors[5] = COLOR_05;
-    paletteColors[6] = COLOR_06;
-    paletteColors[7] = COLOR_07;
-    paletteColors[8] = COLOR_08;
-    paletteColors[9] = COLOR_09;
-    paletteColors[10] = COLOR_10;
-    paletteColors[11] = COLOR_11;
-    paletteColors[12] = COLOR_12;
-    paletteColors[13] = COLOR_13;
-    paletteColors[14] = COLOR_14;
-    paletteColors[15] = COLOR_15;
-
-    for (int i = 16; i < 128; i++) {
-        paletteColors[i] = {0, 0, 0, 0};
-    }
-
-    paletteColors[128] = COLOR_128;
-    paletteColors[129] = COLOR_129;
-    paletteColors[130] = COLOR_130;
-    paletteColors[131] = COLOR_131;
-    paletteColors[132] = COLOR_132;
-    paletteColors[133] = COLOR_133;
-    paletteColors[134] = COLOR_134;
-    paletteColors[135] = COLOR_135;
-    paletteColors[136] = COLOR_136;
-    paletteColors[137] = COLOR_137;
-    paletteColors[138] = COLOR_138;
-    paletteColors[139] = COLOR_139;
-    paletteColors[140] = COLOR_140;
-    paletteColors[141] = COLOR_141;
-    paletteColors[142] = COLOR_142;
-    paletteColors[143] = COLOR_143;
-}
-
 int SDL_main(int argc, char* argv[]) {
-    setUpPaletteColors();
+
+    Host *host = new Host();
+    PicoRam *memory = new PicoRam();
+    Audio *audio = new Audio(memory);
+
+    Vm *vm = new Vm(host, memory, nullptr, nullptr, audio);
+
+    host->setUpPaletteColors();
+    host->oneTimeSetup(audio);
+
+    vm->SetCartList(host->listcarts());
+
+    vm->LoadBiosCart();
+
+    vm->GameLoop();
+
+    vm->CloseCart();
+
+    host->oneTimeCleanup();
+
+    delete vm;
+    delete host;
+
+    return 0;
 
     SDL_Init(SDL_INIT_EVERYTHING);              // Initialize SDL2
 

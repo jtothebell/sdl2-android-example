@@ -15,7 +15,7 @@ using namespace std;
 #include "../../../source/filehelpers.h"
 
 // sdl
-#ifdef _ANDROID
+#ifdef __ANDROID__
 #include "SDL.h"
 #else
 #include <SDL2/SDL.h>

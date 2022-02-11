@@ -26,7 +26,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../SDL2_mixer/ ${CMAKE_CURRENT_SOUR
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../SDL2_ttf/ ${CMAKE_CURRENT_SOURCE_DIR}/../SDL2_ttf)
 
 
-add_definitions(-D_ANDROID -Wno-deprecated)
+add_definitions(-Wno-deprecated)
 remove_definitions(-Werror)
 
 add_library(
