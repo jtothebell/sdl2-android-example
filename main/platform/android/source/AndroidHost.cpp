@@ -72,7 +72,7 @@ Host::Host()
         PIXEL_FORMAT,
         _desktopSdl2SettingsPrefix,
         _desktopSdl2customBiosLua,
-        "/mnt/sdcard/roms/p8carts"
+        "/storage/emulated/0/roms/p8carts"
     );
 }
 

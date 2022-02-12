@@ -1,5 +1,8 @@
 package rocks.georgik.sdlapp;
 
+import static android.os.Environment.getExternalStorageDirectory;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -1024,6 +1027,13 @@ public class SDLActivity extends Activity {
 class SDLMain implements Runnable {
     @Override
     public void run() {
+        File dir = getExternalStorageDirectory();
+        Log.println(1, "SDL", dir.getPath());
+
+        ArrayList<String> result = new ArrayList<String>();
+        File[] filesInFolder = dir.listFiles();
+        //if filesInFolder is null, no permissions
+
         // Runs SDL_main()
         SDLActivity.nativeInit(SDLActivity.mSingleton.getArguments());
 
