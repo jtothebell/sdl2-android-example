@@ -25,8 +25,8 @@ using namespace std;
 #define SAMPLESPERBUF (SAMPLERATE / 30)
 #define NUM_BUFFERS 2
 
-int _windowWidth = 128;
-int _windowHeight = 128;
+int _windowWidth = 640;
+int _windowHeight = 480;
 
 
 int _screenWidth = 128;
@@ -196,12 +196,34 @@ void Host::oneTimeSetup(Audio* audio){
         return;
     }
 
-    window = SDL_CreateWindow("FAKE-08", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, _windowFlags);
+    window = SDL_CreateWindow(
+            "FAKE-08",
+            SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED,
+            _windowWidth,
+            _windowHeight,
+            _windowFlags);
 	if (!window) 
     { 
         quit = 1;
         return; 
     }
+
+    int actualWinWidth, actualWinHeight;
+
+    SDL_GetWindowSize(window, &actualWinWidth, &actualWinHeight);
+
+    _windowWidth = actualWinWidth;
+    _windowHeight = actualWinHeight;
+    _actualWindowWidth = actualWinWidth;
+    _actualWindowHeight = actualWinHeight;
+
+    int xScaleFactor = actualWinWidth / PicoScreenWidth;
+    int yScaleFactor = actualWinHeight / PicoScreenHeight;
+    int scaleFactor = xScaleFactor < yScaleFactor ? xScaleFactor : yScaleFactor;
+
+    _maxNoStretchWidth = PicoScreenWidth * scaleFactor;
+    _maxNoStretchHeight = PicoScreenHeight * scaleFactor;
 	
 	renderer = SDL_CreateRenderer(window, -1, _rendererFlags);
 	if (!renderer) 

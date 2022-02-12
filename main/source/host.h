@@ -42,6 +42,9 @@ class Host {
 
     Color _paletteColors[144];
 
+    int _actualWindowWidth;
+    int _actualWindowHeight;
+
     public:
     Host();
 
